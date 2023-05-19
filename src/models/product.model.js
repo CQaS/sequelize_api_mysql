@@ -2,7 +2,7 @@ const {
     sequelize,
     DataTypes,
     Model
-} = require('./coneccion')
+} = require('./conexion')
 
 class Product extends Model {}
 
@@ -27,6 +27,13 @@ Product.init({
     sequelize,
     modelName: 'Product'
 })
+
+/*await Product.sync()
+        const crearProduct = await Product.create({
+            nombre: dataProducto.nombre,
+            precio: dataProducto.precio,
+            stock: dataProducto.stock
+        })*/
 
 module.exports = Product
 

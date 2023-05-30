@@ -1,17 +1,18 @@
 const router = require('express').Router()
-const productController = require('../controller/productController')
-const {
-    faker
-} = require('@faker-js/faker')
-const Product = require('../models/product.model')
+const recursosController = require('../controller/recursosController')
 
+/* var articlesEndpoints = ['/article2', '/article3'];
+articlesEndpoints.forEach(function (name) {
+    app.get(name, function (req, res) {
+        res.render(name);
+    });
+}); */
 
+const routerRecursosDinamico = () => {
 
-router.get('/products', productController.formProduct)
+    return router.get('*', recursosController.recursos)
 
-router.post('/products', productController.crearProduct)
-
-router.get('/products/:id', async (req, res) => {
+    /* routerCRUD.get('/products/:id', async (req, res) => {
     const id = req.params.id
     const unProducto = await Product.findOne({
         where: {
@@ -26,7 +27,7 @@ router.get('/products/:id', async (req, res) => {
 })
 
 
-router.put('/products/:id', async (req, res) => {
+routerCRUD.put('/products/:id', async (req, res) => {
     const id = req.params.id
     const dataProducto = req.body
     const updateProduct = await Product.update({
@@ -46,7 +47,7 @@ router.put('/products/:id', async (req, res) => {
     })
 })
 
-router.delete('/products/:id', async (req, res) => {
+routerCRUD.delete('/products/:id', async (req, res) => {
     const id = req.params.id
     const unProducto = await Product.destroy({
         where: {
@@ -58,6 +59,8 @@ router.delete('/products/:id', async (req, res) => {
         status: 200,
         body: unProducto
     })
-})
+}) */
+}
 
-module.exports = router
+
+module.exports = routerRecursosDinamico

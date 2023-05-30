@@ -4,9 +4,9 @@ const {
     Model
 } = require('./conexion')
 
-class PlantillasModel extends Model {}
+class test_Model extends Model {}
 
-PlantillasModel.init({
+test_Model.init({
     tabla: {
         type: DataTypes.STRING,
         allowNull: false
@@ -17,7 +17,7 @@ PlantillasModel.init({
 
 const testTabla = async (tabla) => {
 
-    let DB = await PlantillasModel.sequelize.query(`SHOW TABLES LIKE "${tabla}"`)
+    let DB = await test_Model.sequelize.query(`SHOW TABLES LIKE "${tabla}"`)
     return DB
 
 }

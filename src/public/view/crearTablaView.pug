@@ -1,0 +1,69 @@
+doctype html
+html(lang='en')
+  head
+    title Crear
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    // Bootstrap CSS v5.2.1
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT', crossorigin='anonymous')
+  body
+    .container
+      form.d-flex(action='/crearTabla', method='POST')
+        #nuevodb.col
+          button.btn.btn-primary(type='submit') Crear
+          br
+          button#agregar.btn.btn-outline-primary(type='button') Agregar campo
+          .mb-3
+            label.form-label(for='') Nombre de la DB
+            input#tablename.form-control(type='text', name='tablename', placeholder='', aria-describedby='helpId')
+            small#helpId.text-muted Ingresa el nombre de la DB
+          br
+          br
+          if list != null && list.length > 0
+                for l in list
+                  .form-check.form-check-inline
+                    h3 #{l.nombre}:
+                    hr
+                    input#chk_red.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='C')
+                    label.form-check-label(for='chk_red') Leer
+                  .form-check.form-check-inline
+                    input#chk_green.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='R')
+                    label.form-check-label(for='chk_green') Actualizar
+                  .form-check.form-check-inline
+                    input#chk_blue.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='U')
+                    label.form-check-label(for='chk_blue') Borrar
+                  .form-check.form-check-inline
+                    input#chk_blue.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='D')
+                    label.form-check-label(for='chk_blue') Crear
+                  br
+
+    script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')
+
+    script.
+      let add = document.getElementById('agregar')
+      let campNum = 1
+      add.addEventListener('click', () => {
+      let div = document.createElement('div')
+      div.id = `campos${campNum}`
+      let nuevodb = document.querySelector('#nuevodb')
+      nuevodb.appendChild(div)
+      document.getElementById(`campos${campNum}`).innerHTML +=
+      `<hr>
+      <div class="mb-3">
+        <label for="" class="form-label">Nombre de la Tabla</label>
+        <input type="text" name="camponame_${campNum}" id="camponame_${campNum}" class="form-control" placeholder=""
+        aria-describedby="helpId">
+        <div class="mb-3">
+            <label for="" class="form-label">Tipo de dato:</label>
+            <select class="form-select form-select-lg" name="camponame_${campNum}" id="camponame_${campNum}">
+                <option selected>Selecciona</option>
+                <option value="INTEGER">Entero</option>
+                <option value="STRING">Varchar</option>
+                <option value="BOOLEAN">Bool</option>
+                <option value="ENUM">Enum</option>
+            </select>
+        </div>
+      </div>`;
+      campNum++
+      })

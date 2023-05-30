@@ -1,11 +1,10 @@
 const express = require('express')
-const router = require('../router/product.router')
-const txt = require('../controller/plantillaController')
+const routerCRUD = require('../router/crearTabla.router')
+const routerRecursosDinamico = require('../router/recursos.router')
 
 const app = express()
 
 const publicPath = __dirname.replace('app', 'public')
-console.log(publicPath)
 
 app.set('views', `${publicPath}/view`)
 app.set('view engine', 'pug')
@@ -15,11 +14,7 @@ app.use(express.urlencoded({
     extended: false
 }))
 app.use(express.json())
-app.use('/', router)
-
-/* app.get('/', (req, res) => {
-    console.log(txt('perro'))
-    res.send('Hello World')
-}) */
+app.use('/', routerCRUD)
+app.use('/recursos', routerRecursosDinamico())
 
 module.exports = app

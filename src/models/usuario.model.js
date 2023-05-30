@@ -4,9 +4,9 @@ const {
     Model
 } = require('./conexion')
 
-class Product extends Model {}
+class Usuario extends Model {}
 
-Product.init({
+Usuario.init({
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -16,26 +16,26 @@ Product.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    precio: {
-        type: DataTypes.FLOAT(10, 2),
+    telefono: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
-    stock: {
-        type: DataTypes.BOOLEAN,
+    mail: {
+        type: DataTypes.STRING,
     }
 }, {
     sequelize,
-    modelName: 'Product'
+    modelName: 'Usuario'
 })
 
 const traer = async () => {
-    return await Product.findAll()
+    return await Usuario.findAll()
 }
 
 const crearTabla = async (data) => {
 
-    await Product.sync()
-    const creada = await Product.create({
+    await Usuario.sync()
+    const creada = await Usuario.create({
         nombre: data.nombre,
         precio: data.precio,
         stock: data.stock
@@ -45,7 +45,7 @@ const crearTabla = async (data) => {
 }
 
 module.exports = {
-    Product,
+    Usuario,
     crearTabla,
     traer
 }

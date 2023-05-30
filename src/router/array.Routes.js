@@ -1,0 +1,1 @@
+module.exports = arrayRoutes = ["Aviones", "Kiosco"]

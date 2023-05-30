@@ -3,11 +3,8 @@
 
 <head>
     <title>Crear</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
@@ -16,24 +13,57 @@
 <body>
     <div class="container">
         <form action="/products" method="POST" class="d-flex">
-            <div class="col">
+            <div id="nuevodb" class=" col">
+                <button type="submit" class="btn btn-primary">Crear</button>
                 <div class="mb-3">
-                    <label for="" class="form-label">Nombre_DB</label>
-                    <input type="text" name="dbname" id="dbname" class="form-control" placeholder=""
+                    <label for="" class="form-label">Nombre de la DB</label>
+                    <input type="text" name="tablename" id="tablename" class="form-control" placeholder=""
                         aria-describedby="helpId">
-                    <small id="helpId" class="text-muted">Ingresa el nombre de la tabla</small>
+
+                    <small id="helpId" class="text-muted">Ingresa el nombre de la DB</small>
                 </div>
+
             </div>
-            <button type="submit" class="btn btn-primary">Crear</button>
+
         </form>
+        <button type="button" id="agregar" class="btn btn-outline-primary">Agregar campo</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+
+    <script>
+        let add = document.getElementById('agregar')
+        let campNum = 1
+        add.addEventListener('click', () => {
+
+            let div = document.createElement('div')
+            div.id = `campos${campNum}`
+            let nuevodb = document.querySelector('#nuevodb')
+            nuevodb.appendChild(div)
+
+            document.getElementById(`campos${campNum}`).innerHTML +=
+                `<hr><div class="mb-3">
+                    <label for="" class="form-label">Nombre de la Tabla</label>
+                    <input type="text" name="camponame${campNum}" id="camponame${campNum}" class="form-control" placeholder=""
+                        aria-describedby="helpId">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tipo de dato:</label>
+                            <select class="form-select form-select-lg" name="tipo" id="tipo">
+                                <option selected>Selecciona</option>
+                                <option value="entero">entero</option>
+                                <option value="varchar">varchar</option>
+                                <option value="bool">bool</option>
+                                <option value="enum">enum</option>
+                            </select>
+                        </div>
+                </div>`;
+            campNum++
+        })
     </script>
 </body>
 

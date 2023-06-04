@@ -7,7 +7,7 @@ const {
 class test_Model extends Model {}
 
 test_Model.init({
-    tabla: {
+    default: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -22,4 +22,6 @@ const testTabla = async (tabla) => {
 
 }
 
-module.exports = testTabla
+module.exports = {
+    testTabla
+}

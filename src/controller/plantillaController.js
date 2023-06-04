@@ -16,6 +16,6 @@ const txt = (nombre) => {
                 module.exports = app`
 
     return algo
-};
+}
 
 module.exports = txt

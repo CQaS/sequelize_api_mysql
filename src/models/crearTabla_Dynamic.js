@@ -59,28 +59,33 @@ const createDynamicTable2 = async (dataTable) => {
             })
 
             permiso.sync({
-                alter: true
-            }).then(() => {
+                    alter: true
+                }).then(() => {
 
-                const insertar = async () => {
-                    const insert = await permiso.create({
-                        recurso: dataTable.tablename,
-                        id_usuario: id_usuario,
-                        permiso_otorgados: permisosOtorgados
-                    })
-                    console.log(insert)
-                    console.log('------------')
+                    const insertar = async () => {
+                        const insert = await permiso.create({
+                            recurso: dataTable.tablename,
+                            id_usuario: id_usuario,
+                            permiso_otorgados: permisosOtorgados
+                        })
+                        console.log(insert)
+                        console.log('------------')
 
-                    const leer = await permiso.findAll()
+                        const leer = await permiso.findAll()
 
-                    console.log(leer)
-                }
+                        console.log(leer)
+                    }
 
-                insertar()
+                    insertar()
 
-            }).catch((err) => {
-                console.log(err)
-            })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+                .finally(() => {
+                    // Cierra la conexión a la base de datos
+                    sequelize.close();
+                })
         }
 
 

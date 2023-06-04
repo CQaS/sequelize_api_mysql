@@ -1,1 +1,1 @@
-module.exports = arrayRoutes = ["Aviones", "Kiosco"]
+module.exports = arrayRoutes = ["default", "usuario"]

@@ -1,5 +1,6 @@
 const express = require('express')
 const routerCRUD = require('../router/crearTabla.router')
+const routerUsuario = require('../router/usuario.router')
 const routerRecursosDinamico = require('../router/recursos.router')
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 app.use('/', routerCRUD)
+app.use('/usuario', routerUsuario)
 app.use('/recursos', routerRecursosDinamico())
 
 module.exports = app

@@ -1,15 +1,52 @@
 doctype html
 html(lang='en')
   head
-    title Crear
+    title 404
+    // Required meta tags
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     // Bootstrap CSS v5.2.1
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT', crossorigin='anonymous')
+    link(rel='stylesheet', href='/css/404.css')
   body
     .container
-      label.form-label(for='') 404
-      
-
+      .moon
+      .moon__crater.moon__crater1
+      .moon__crater.moon__crater2
+      .moon__crater.moon__crater3
+      .star.star1
+      .star.star2
+      .star.star3
+      .star.star4
+      .star.star5
+      .error
+        .error__title #{estado}
+        .error__subtitle #{data}...
+        .error__description Algo no funciona bien!
+        br
+        a.error__button.error__button--active(href='/generarCRUD') CREAR RECURSO
+        a.error__button(href='/usuario/login') LOGIN
+        .astro
+          .astronaut__backpack
+          .astronaut__body
+          .astronaut__body__chest
+          .astronaut__arm-left1
+          .astronaut__arm-left2
+          .astronaut__arm-right1
+          .astronaut__arm-right2
+          .astronaut__arm-thumb-left
+          .astronaut__arm-thumb-right
+          .astronaut__leg-left
+          .astronaut__leg-right
+          .astronaut__foot-left
+          .astronaut__foot-right
+          .astronaut__wrist-left
+          .astronaut__wrist-right
+          .astronaut__cord
+            canvas#cord(height='500px', width='390px')
+          .astronaut__head
+            canvas#visor(width='60px', height='60px')
+            .astronaut__head-visor-flare1
+            .astronaut__head-visor-flare2
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')

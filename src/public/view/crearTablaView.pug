@@ -6,40 +6,49 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     // Bootstrap CSS v5.2.1
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT', crossorigin='anonymous')
+    link(rel='stylesheet', href='/css/formCRUD.css')
   body
     .container
-      form.d-flex(action='/crearTabla', method='POST')
-        #nuevodb.col
-          button.btn.btn-primary(type='submit') Crear
-          br
-          button#agregar.btn.btn-outline-primary(type='button') Agregar campo
-          .mb-3
-            label.form-label(for='') Nombre de la DB
-            input#tablename.form-control(type='text', name='tablename', placeholder='', aria-describedby='helpId')
-            small#helpId.text-muted Ingresa el nombre de la DB
-          br
-          br
-          if list != null && list.length > 0
-                for l in list
-                  .form-check.form-check-inline
-                    h3 #{l.nombre}:
-                    hr
-                    input#chk_red.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='C')
-                    label.form-check-label(for='chk_red') Leer
-                  .form-check.form-check-inline
-                    input#chk_green.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='R')
-                    label.form-check-label(for='chk_green') Actualizar
-                  .form-check.form-check-inline
-                    input#chk_blue.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='U')
-                    label.form-check-label(for='chk_blue') Borrar
-                  .form-check.form-check-inline
-                    input#chk_blue.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='D')
-                    label.form-check-label(for='chk_blue') Crear
-                  br
-
+      .row
+        .form-content
+          .form-items
+            h3 Registro de Nuevas tablas
+            form.requires-validation(action='/crearTabla', method='POST', novalidate='')
+              #nuevodb.col
+                .col-md-12
+                  input#tablename.form-control(type='text', name='tablename', placeholder='Nombre de la Tabla', required='')
+                  .valid-feedback Tabla valida!
+                  .invalid-feedback Nombre de Tabla necesaria!
+                .form-button.mt-3
+                  button#agregar.btn.btn-primary(type='button') Agregar Columna
+                  button#submit.btn.btn-outline-primary(type='submit') Registrar Tabla
+                  a.btn.btn-outline-primary(href='/usuario/login') ir a Login Usuario
+                br
+                if list != null && list.length > 0
+                      p Asignacion de permisos para la Tabla
+                      for l in list
+                        .form-check.form-check-inline
+                          h3 #{l.nombre}:
+                          input#chk_red.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='C')
+                          label.form-check-label(for='chk_red') crear
+                        .form-check.form-check-inline
+                          input#chk_green.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='R')
+                          label.form-check-label(for='chk_green') Leer
+                        .form-check.form-check-inline
+                          input#chk_blue.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='U')
+                          label.form-check-label(for='chk_blue') Actualizar
+                        .form-check.form-check-inline
+                          input#chk_gray.form-check-input(type='checkbox', name=`usuario_${l.id}`, value='D')
+                          label.form-check-label(for='chk_gray') Borrar
+                        br
+                        hr
+                else
+                  p Atencion: No tienes Usuarios registrados!
+                  p Atencion: Este recurso se creara sin otorgar permisos a ningun Usuario!
+                          
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')
-
+    script(src='/js/formCRUD.js')
     script.
       let add = document.getElementById('agregar')
       let campNum = 1
@@ -49,21 +58,24 @@ html(lang='en')
       let nuevodb = document.querySelector('#nuevodb')
       nuevodb.appendChild(div)
       document.getElementById(`campos${campNum}`).innerHTML +=
-      `<hr>
-      <div class="mb-3">
-        <label for="" class="form-label">Nombre de la Tabla</label>
-        <input type="text" name="camponame_${campNum}" id="camponame_${campNum}" class="form-control" placeholder=""
-        aria-describedby="helpId">
-        <div class="mb-3">
-            <label for="" class="form-label">Tipo de dato:</label>
-            <select class="form-select form-select-lg" name="camponame_${campNum}" id="camponame_${campNum}">
-                <option selected>Selecciona</option>
-                <option value="INTEGER">Entero</option>
-                <option value="STRING">Varchar</option>
-                <option value="BOOLEAN">Bool</option>
-                <option value="ENUM">Enum</option>
-            </select>
-        </div>
+      `
+      <div class="col-md-12">
+      <input class="form-control" type="text" name="camponame_${campNum}" id="camponame_${campNum}" placeholder="Nombre de la Columna" required>
+      <div class="valid-feedback">Columna Valida!</div>
+      <div class="invalid-feedback">Columna en blanco!</div>
+      </div>
+      <div class="col-md-12">
+      <select class="form-select form-select-lg" name="camponame_${campNum}" id="camponame_${campNum}" required>
+      <option selected>Selecciona TIPO</option>
+      <option value="INTEGER">Entero</option>
+      <option value="STRING">Varchar</option>
+      <option value="BOOLEAN">Bool</option>
+      <option value="ENUM">Enum</option>
+      </select>
+      <div class="valid-feedback">Tu seleccion!</div>
+      <div class="invalid-feedback">Selecciona unaa posicion!</div>
       </div>`;
       campNum++
       })
+      
+          

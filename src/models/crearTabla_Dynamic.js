@@ -3,10 +3,11 @@ const {
     DataTypes
 } = require('./conexion')
 
+
+const columns = {}
 // Definir el modelo dinámicamente con las columnas del formulario
 const createDynamicTable2 = async (dataTable) => {
 
-    const columns = {}
     for (let key in dataTable) {
 
         let value = dataTable[key];
@@ -58,7 +59,7 @@ const createDynamicTable2 = async (dataTable) => {
                 timestamps: false
             })
 
-            permiso.sync({
+            /* permiso.sync({
                     alter: true
                 }).then(() => {
 
@@ -81,11 +82,7 @@ const createDynamicTable2 = async (dataTable) => {
                 })
                 .catch((err) => {
                     console.log(err)
-                })
-                .finally(() => {
-                    // Cierra la conexión a la base de datos
-                    sequelize.close();
-                })
+                }) */
         }
 
 
@@ -102,7 +99,7 @@ const createDynamicTable2 = async (dataTable) => {
     })
 
     try {
-        await dynamicModel.sync()
+        //await dynamicModel.sync()
         return 'OK'
 
     } catch (error) {
@@ -111,5 +108,6 @@ const createDynamicTable2 = async (dataTable) => {
 }
 
 module.exports = {
-    createDynamicTable2
+    createDynamicTable2,
+    columns
 }

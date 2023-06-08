@@ -53,6 +53,20 @@ const crearUnUsuario = async (data) => {
     return creado
 }
 
+const actualizar = async (data) => {
+
+    let hashedPassword = passwordHash.generate(data.password)
+    await Usuario.sync()
+    const actualizado = await Usuario.update({
+        //data
+    }, {
+        where: {
+            id: data.id,
+        }
+    })
+    return actualizado
+}
+
 const ingresarUnUsuario = async (data) => {
 
     let check_user = await Usuario.findOne({
@@ -104,68 +118,5 @@ module.exports = {
     ingresarUnUsuario,
     byId,
     borrarById,
+    actualizar
 }
-
-/* const traerUs = await traer()
-    res.render(unRecurso + 'View')
-
-    const id = req.params.id
-    const unProducto = await Product.findOne({
-        where: {
-            id: id
-        }
-    }) 
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: unRecurso,
-    })
-
-    routerCRUD.get('/products/:id', async (req, res) => {
-    const id = req.params.id
-    const unProducto = await Product.findOne({
-        where: {
-            id: id
-        }
-    })
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: unProducto
-    })
-})
-
-
-routerCRUD.put('/products/:id', async (req, res) => {
-    const id = req.params.id
-    const dataProducto = req.body
-    const updateProduct = await Product.update({
-        nombre: dataProducto.nombre,
-        precio: dataProducto.precio,
-        stock: dataProducto.stock
-    }, {
-        where: {
-            id: id
-        }
-    })
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        message: 'Producto actualizado',
-        body: updateProduct
-    })
-})
-
-routerCRUD.delete('/products/:id', async (req, res) => {
-    const id = req.params.id
-    const unProducto = await Product.destroy({
-        where: {
-            id: id
-        }
-    })
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: unProducto
-    })
-}) */

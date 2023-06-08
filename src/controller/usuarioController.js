@@ -1,12 +1,13 @@
 const {
     traer,
     crearUnUsuario,
-    ingresarUnUsuario
+    ingresarUnUsuario,
+    actualizar
 } = require('../models/usuarioModel')
 
 exports.formLogin = async (req, res) => {
 
-    res.render('loginView')
+    res.render('recursos/usuario/loginView')
 }
 
 exports.ingresarUsuario = async (req, res) => {
@@ -23,7 +24,7 @@ exports.ingresarUsuario = async (req, res) => {
 
 exports.formRegistro = async (req, res) => {
 
-    res.render('registroView')
+    res.render('recursos/usuario/registroView')
 }
 
 exports.crearUsuario = async (req, res) => {
@@ -34,5 +35,16 @@ exports.crearUsuario = async (req, res) => {
         ok: true,
         status: 200,
         body: creado
+    })
+}
+
+exports.actualizarUsuario = async (req, res) => {
+    const dataTabla = req.body
+
+    let actualizado = await actualizar(dataTabla)
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: actualizado
     })
 }

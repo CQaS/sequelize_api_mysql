@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
   head
-    title Login
+    title Registro
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     // Bootstrap CSS v5.2.1
@@ -12,9 +12,17 @@ html(lang='en')
       .row
         .form-content
           .form-items
-            h3 Login de Usuarios
-            form.requires-validation(action='/usuario/ingresarUsuario', method='POST', novalidate='')
+            h3 Registro de Usuarios
+            form.requires-validation(action='/usuario/crearUsuario', method='POST', novalidate='')
               #nuevodb.col
+                .col-md-12
+                  input#tablename.form-control(type='text', name='nombre', placeholder='Ingresa tu nombre...', required='')
+                  .valid-feedback E-mail valido!
+                  .invalid-feedback E-mail necesario!
+                .col-md-12
+                  input#tablename.form-control(type='text', name='telefono', placeholder='Ingresa tu telefono...', required='')
+                  .valid-feedback E-mail valido!
+                  .invalid-feedback E-mail necesario!
                 .col-md-12
                   input#tablename.form-control(type='text', name='mail', placeholder='mail@mail.com', required='')
                   .valid-feedback E-mail valido!
@@ -24,9 +32,9 @@ html(lang='en')
                   .valid-feedback Password valido!
                   .invalid-feedback Password necesario!
                 .form-button.mt-3
-                  button#submit.btn.btn-outline-primary(type='submit') Ingresar
-                  a.btn__button(href='/usuario/registro') Registrarte
-                  a.btn__button(href='/generarCRUD') IR A CREAR RECURSO
+                  button#submit.btn.btn-outline-primary(type='submit') Registrar
+                  a.btn__button(href='recursos/usuario/login') Login
+                  a.btn__button(href='/generarCRUD') CREAR RECURSO
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')

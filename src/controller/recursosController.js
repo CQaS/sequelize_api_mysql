@@ -8,10 +8,10 @@ exports.recursos = (req, res) => {
     console.log(recurso_url[0])
 
     /*[ 'recurso', '56', 'edit' ]
-        GET /NOMBRE_DEL_RECURSO/ Retorna listado de los recursos 
-        GET /NOMBRE_DEL_RECURSO/{id} Retorna datos de un recurso 
-        GET /NOMBRE_DEL_RECURSO/create Muestra formulario para nuevo recurso 
-        GET /NOMBRE_DEL_RECURSO/{id}/edit Muestra formulario para editar recurso 
+        GET /NOMBRE_DEL_RECURSO/ Retorna listado de los recursos 'panaderia_ListView'
+        GET /NOMBRE_DEL_RECURSO/{id} Retorna datos de un recurso 'panaderia_ByIdView'
+        GET /NOMBRE_DEL_RECURSO/create Muestra formulario para nuevo recurso 'panaderia_FormView'
+        GET /NOMBRE_DEL_RECURSO/{id}/edit Muestra formulario para editar recurso 'panaderia_FormByIdView'
         POST /NOMBRE_DEL_RECURSO/ registra nuevo recurso 
         PUT /NOMBRE_DEL_RECURSO/{id} Actualiza los datos del recurso 
         DELETE /NOMBRE_DEL_RECURSO/{id} Elimina un recurso
@@ -23,11 +23,10 @@ exports.recursos = (req, res) => {
         (async () => {
 
             let listar = await module_diccionario[`${recurso_url[0]}Model`].traer()
-            res.render('crearTablaView', {
+            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ListView`, {
                 list: listar
             })
         })()
-
 
     }
 
@@ -38,9 +37,9 @@ exports.recursos = (req, res) => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
             console.log(datos_byId)
-            /* res.render('crearTablaView', {
+            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ByIdView`, {
                 list: datos_byId
-            }) */
+            })
         })()
 
     }
@@ -48,7 +47,7 @@ exports.recursos = (req, res) => {
     //GET     /recurso/create     Muestra formulario para nuevo recurso
     if (recurso_url.length == 2 && recurso_url[1] == 'create' && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET') {
 
-        res.render(recurso_url[0] + 'View')
+        res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormView`)
     }
 
     //GET     /recurso/{id}/edit     Muestra formulario para editar recurso
@@ -58,9 +57,9 @@ exports.recursos = (req, res) => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
             console.log(datos_byId)
-            /* res.render('crearTablaView', {
+            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormByIdView`, {
                 list: datos_byId
-            }) */
+            })
         })()
 
     }

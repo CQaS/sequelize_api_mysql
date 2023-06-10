@@ -23,9 +23,20 @@ exports.recursos = (req, res) => {
         (async () => {
 
             let listar = await module_diccionario[`${recurso_url[0]}Model`].traer()
-            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ListView`, {
-                list: listar
-            })
+            if (listar) {
+
+                res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ListView`, {
+                    list: listar
+                })
+
+            } else {
+
+                res.render('notFoundView', {
+                    estado: 404,
+                    data: 'NOTFOUND'
+                })
+            }
+
         })()
 
     }
@@ -36,10 +47,20 @@ exports.recursos = (req, res) => {
         (async () => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
-            console.log(datos_byId)
-            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ByIdView`, {
-                list: datos_byId
-            })
+            if (datos_byId) {
+
+                res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ByIdView`, {
+                    list: datos_byId
+                })
+
+            } else {
+
+                res.render('notFoundView', {
+                    estado: 404,
+                    data: 'NOTFOUND'
+                })
+            }
+
         })()
 
     }
@@ -57,9 +78,20 @@ exports.recursos = (req, res) => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
             console.log(datos_byId)
-            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormByIdView`, {
-                list: datos_byId
-            })
+
+            if (datos_byId) {
+
+                res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormByIdView`, {
+                    list: datos_byId
+                })
+
+            } else {
+
+                res.render('notFoundView', {
+                    estado: 404,
+                    data: 'NOTFOUND'
+                })
+            }
         })()
 
     }
@@ -83,18 +115,22 @@ exports.recursos = (req, res) => {
 
             let borrar_byId = await module_diccionario[`${recurso_url[0]}Model`].borrarById(recurso_url[1])
             console.log(borrar_byId)
-            /* res.render('crearTablaView', {
-                list: borrar_byId
-            }) */
+
+            if (borrar_byId) {
+
+                res.render('crearTablaView', {
+                    list: borrar_byId
+                })
+
+            } else {
+
+                res.render('notFoundView', {
+                    estado: 404,
+                    data: 'NOTFOUND'
+                })
+            }
+
         })()
 
     }
-    /*  else {
-            res.render('notFoundView', {
-                estado: '404',
-                data: 'NOTFOUND'
-            })
-        } */
-
-
 }

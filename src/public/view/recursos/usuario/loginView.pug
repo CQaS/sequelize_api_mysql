@@ -13,7 +13,7 @@ html(lang='en')
         .form-content
           .form-items
             h3 Login de Usuarios
-            form.requires-validation(action='/usuario/ingresarUsuario', method='POST', novalidate='')
+            form.requires-validation(action='/recursos/usuario/ingresarUsuario', method='POST', novalidate='')
               #nuevodb.col
                 .col-md-12
                   input#tablename.form-control(type='text', name='mail', placeholder='mail@mail.com', required='')
@@ -25,7 +25,7 @@ html(lang='en')
                   .invalid-feedback Password necesario!
                 .form-button.mt-3
                   button#submit.btn.btn-outline-primary(type='submit') Ingresar
-                  a.btn__button(href='recursos/usuario/registro') Registrarte
+                  a.btn__button(href='/recursos/usuario/registro') Registrarte
                   a.btn__button(href='/generarCRUD') IR A CREAR RECURSO
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')

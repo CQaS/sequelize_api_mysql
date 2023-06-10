@@ -43,4 +43,32 @@
         _modelAttribute: true,
         field: 'enum'
     }
-}`
+}
+
+
+app use( session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}) )
+
+'/login', (req,res) => {
+    req.session.auto={modelo:'ford'}
+    req.session.nombre='leo'
+    req.session.auth=true
+}
+
+'/veralgo', (req,res) => {
+    let auto = req.session.auto
+    if (req.session.auth) {
+        res.render('veralgo', {user: req.session.nombre})
+    }
+}
+
+'/salir', (req,res)=>{
+    req.session.destroy((err)=>{
+        ok
+    })
+}
+
+`

@@ -14,6 +14,7 @@
     "async": "^3.2.4",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "glob": "^10.2.6",
     "mysql2": "^3.3.1",
     "password-hash": "^1.2.2",

@@ -5,8 +5,7 @@ const {
     testTabla
 } = require('../models/test_Model')
 const {
-    createDynamicTable2,
-    columns
+    createDynamicTable2
 } = require('../models/crearTabla_Dynamic')
 const {
     traer
@@ -23,7 +22,7 @@ const plantillaController = require('../public/templates/plantillaController')
 exports.formCrearTabla = async (req, res) => {
 
     const traerUs = await traer()
-    //console.log(traerUs)
+    console.log(traerUs)
     res.render('crearTablaView', {
         list: traerUs
     })
@@ -36,10 +35,9 @@ exports.crearTabla = async (req, res) => {
     if (typeof TBL[0][0] !== 'object') {
 
         //crea la tabla...
-        let msg = await createDynamicTable2(dataTabla)
+        let arr = await createDynamicTable2(dataTabla)
 
-        if (msg === 'OK') {
-
+        if (arr != null) {
 
             const filePath = path.join(__dirname, '../router/array.Routes.js')
             fs.readFile(filePath, 'utf8', (err, data) => {
@@ -64,7 +62,7 @@ exports.crearTabla = async (req, res) => {
                         let i = 0
                         async.each(paths, (file, callback) => {
 
-                            fs.writeFile(file, arrayFunctions[i](dataTabla.tablename), 'utf8', (err) => {
+                            fs.writeFile(file, (i == 0) ? arrayFunctions[i](dataTabla.tablename, arr) : arrayFunctions[i](dataTabla.tablename, arr), 'utf8', (err) => {
                                 i++
 
                                 (err) ? console.log('Error al escribir en el archivo:', err): callback()
@@ -108,7 +106,7 @@ exports.crearTabla = async (req, res) => {
                     res.status(201).json({
                         ok: true,
                         status: 201,
-                        message: msg,
+                        message: 'OK',
                     })
                 })
             })

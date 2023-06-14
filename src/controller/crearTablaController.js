@@ -22,9 +22,8 @@ const plantillaController = require('../public/templates/plantillaController')
 exports.formCrearTabla = async (req, res) => {
 
     const traerUs = await traer()
-    console.log(traerUs)
     res.render('crearTablaView', {
-        list: traerUs
+        list: traerUs,
     })
 }
 
@@ -35,9 +34,9 @@ exports.crearTabla = async (req, res) => {
     if (typeof TBL[0][0] !== 'object') {
 
         //crea la tabla...
-        let arr = await createDynamicTable2(dataTabla)
+        let T = await createDynamicTable2(dataTabla)
 
-        if (arr != null) {
+        if (T.estado == 'OK') {
 
             const filePath = path.join(__dirname, '../router/array.Routes.js')
             fs.readFile(filePath, 'utf8', (err, data) => {
@@ -60,13 +59,14 @@ exports.crearTabla = async (req, res) => {
                         let paths = [ListPathView, ByIdPathView, FormPathView, FormByIdPathView]
                         let arrayFunctions = [plantilla_ListView, plantilla_ByIdView, plantilla_FormByIdView, plantilla_FormView]
                         let i = 0
+
                         async.each(paths, (file, callback) => {
 
-                            fs.writeFile(file, (i == 0) ? arrayFunctions[i](dataTabla.tablename, arr) : arrayFunctions[i](dataTabla.tablename, arr), 'utf8', (err) => {
-                                i++
+                            fs.writeFile(file, arrayFunctions[i](dataTabla.tablename), 'utf8', (err) => {
 
                                 (err) ? console.log('Error al escribir en el archivo:', err): callback()
                             })
+                            i++
 
                         }, (err) => {
 
@@ -76,14 +76,49 @@ exports.crearTabla = async (req, res) => {
                 })
 
 
-                /* //agrega nuevo models
+                //agrega nuevo models
                 const filePathModel = path.join(__dirname, `../models/${dataTabla.tablename}Model.js`)
-                fs.writeFile(filePathModel, plantillaModel(dataTabla.tablename, columns), 'utf8', (err) => {
+
+                const palabras = T.arrCampos
+
+                const agregarPalabras = (palabras) => {
+                    const palabrasSeparadas = palabras.join(', ')
+                    return `(${palabrasSeparadas})`
+                }
+
+                const resultadoPalabras = agregarPalabras(palabras)
+
+
+                const replacementsPalabras = (palabras) => {
+                    const palabrasFormateadas = palabras.map(palabra => `data.${palabra}`)
+                    const palabrasSeparadas = palabrasFormateadas.join(', ')
+                    return `${palabrasSeparadas}`
+                }
+
+                const replacementsResultado = replacementsPalabras(palabras)
+
+                const replacementsParams = (palabras) => {
+                    const palabrasFormateadas = palabras.map(palabra => `${palabra} = ?`)
+                    const palabrasSeparadas = palabrasFormateadas.join(', ')
+                    return `${palabrasSeparadas}`
+                }
+
+                const param = replacementsParams(palabras)
+
+                const countParams = (cantidad) => {
+                    const signos = Array(cantidad).fill('?').join(', ')
+                    return `(${signos})`
+                }
+
+                let cantidadDeSignos = countParams(T.signosContar)
+
+                fs.writeFile(filePathModel, plantillaModel(dataTabla.tablename, resultadoPalabras, cantidadDeSignos, replacementsResultado, param), 'utf8', (err) => {
                     if (err) {
                         console.error('Error al escribir en el archivo:', err)
                         return
                     }
                 })
+
 
                 //agrega nuevo controller
                 const filePathController = path.join(__dirname, `../controller/${dataTabla.tablename}Controller.js`)
@@ -92,7 +127,7 @@ exports.crearTabla = async (req, res) => {
                         console.error('Error al escribir en el archivo:', err)
                         return
                     }
-                }) */
+                })
 
                 //agrega nueva ruta al Array.Routes
                 const lastIndex = data.lastIndexOf(']')
@@ -103,12 +138,17 @@ exports.crearTabla = async (req, res) => {
                         return
                     }
                     console.log('El nuevo elemento se agregó con éxito.')
-                    res.status(201).json({
-                        ok: true,
-                        status: 201,
-                        message: 'OK',
+                    res.render('notFoundView', {
+                        estado: 404,
+                        data: 'Algo fallo, Intentar nuevamente'
                     })
                 })
+            })
+
+        } else {
+            res.render('notFoundView', {
+                estado: 404,
+                data: 'OKIS return DYNAMIC'
             })
         }
 
@@ -116,15 +156,9 @@ exports.crearTabla = async (req, res) => {
 
         console.log('no')
         res.render('notFoundView', {
-            data: 'NOTFOUND'
+            estado: 404,
+            data: 'La tabla ya existe, Elige otro nombre!'
         })
-        /* res.status(200).json({
-            ok: false,
-            status: 400,
-            body: [{
-                DB: 'Tabla ya existe'
-            }]
-        }) */
     }
 
 }

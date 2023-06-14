@@ -13,6 +13,8 @@ html(lang='en')
         .form-content
           .form-items
             h3 Login de Usuarios
+            if us != null 
+              h4.text-danger #{us}
             form.requires-validation(action='/recursos/usuario/ingresarUsuario', method='POST', novalidate='')
               #nuevodb.col
                 .col-md-12

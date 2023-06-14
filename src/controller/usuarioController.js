@@ -2,40 +2,50 @@ const {
     traer,
     crearUnUsuario,
     ingresarUnUsuario,
-    actualizar
+    byId,
+    borrarById,
+    actualizar,
+    validar_permisos
 } = require('../models/usuarioModel')
 
 exports.formLogin = async (req, res) => {
 
-    res.render('recursos/usuario/loginView')
+    res.render('recursos/usuario/loginView', {
+        us: null
+    })
 }
 
 exports.ingresarUsuario = async (req, res) => {
     const dataTabla = req.body
-    console.log(dataTabla)
 
     let usuarioValido = await ingresarUnUsuario(dataTabla)
-    req.session.usuario = usuarioValido
-    req.session.auth = true
+    if (usuarioValido) {
 
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: usuarioValido
-    })
+        req.session.usuario = usuarioValido
+        req.session.auth = true
+
+        const traerUs = await traer()
+        res.render('recursos/usuario/listView', {
+            list: traerUs,
+        })
+
+    } else {
+
+        res.render('recursos/usuario/loginView', {
+            us: 'Usuario Incorrecto'
+        })
+
+    }
+
 }
 
-exports.web = async (req, res) => {
+exports.lista = async (req, res) => {
 
-    let u = req.session.usuario
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: u
+    const traerUs = await traer()
+    res.render('recursos/usuario/listView', {
+        list: traerUs,
     })
 }
-
-
 
 exports.formRegistro = async (req, res) => {
 
@@ -46,10 +56,29 @@ exports.crearUsuario = async (req, res) => {
     const dataTabla = req.body
 
     let creado = await crearUnUsuario(dataTabla)
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: creado
+    console.log(creado)
+
+    const traerUs = await traer()
+    res.render('recursos/usuario/listView', {
+        list: traerUs,
+    })
+}
+
+exports.datos = async (req, res) => {
+    let id = req.params.id
+
+    const traerUs = await byId(id)
+    res.render('recursos/usuario/datosView', {
+        usuario: traerUs,
+    })
+}
+
+exports.actualizar = async (req, res) => {
+    let id = req.params.id
+
+    const traerUs = await byId(id)
+    res.render('recursos/usuario/actualizarView', {
+        usuario: traerUs,
     })
 }
 
@@ -57,33 +86,74 @@ exports.actualizarUsuario = async (req, res) => {
     const dataTabla = req.body
 
     let actualizado = await actualizar(dataTabla)
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: actualizado
+    console.log(actualizado)
+
+    const traerUs = await traer()
+    res.render('recursos/usuario/listView', {
+        list: traerUs,
+    })
+}
+
+exports.eliminar = async (req, res) => {
+    let id = req.params.id
+
+    const _Us = await borrarById(id)
+    console.log(_Us)
+
+    const traerUs = await traer()
+    res.render('recursos/usuario/listView', {
+        list: traerUs,
     })
 }
 
 exports.salir = async (req, res) => {
 
     req.session.destroy((err) => {
-        res.status(200).json({
-            ok: true,
-            status: 200,
-            body: 'Sessions destroyed'
-        })
+        res.render('recursos/usuario/loginView')
     })
 }
 
 exports.validar_session = (req, res, next) => {
-    console.log(req.session);
+
     if (req.session.usuario && req.session.auth) {
 
-        console.log(`User Session valido`);
-        next();
+        console.log(`User Session valido`)
+        next()
     } else {
 
-        console.log(`No User Session Found`);
-        res.redirect('/recursos/usuario/login');
+        console.log(`No User Session Found`)
+        res.redirect('/recursos/usuario/login')
+    }
+}
+
+exports.validar_session_init = (req, res, next) => {
+
+    if (req.session.usuario && req.session.auth) {
+
+        console.log(`User Session valido`)
+        res.redirect('/recursos/usuario/lista')
+    } else {
+
+        console.log(`No User Session Found`)
+        next()
+    }
+}
+
+exports.validar_permisos = (req, res, next) => {
+
+    let recurso_url = req.url.slice(1).split('/')
+    console.log(recurso_url[0])
+
+    let permisoValidos = validar_permisos(req.session.usuario.id, recurso_url[0])
+    req.session.permisos = permisoValidos
+    //X-X-U-X
+
+    if (permisoValidos) {
+
+        next()
+    } else {
+
+        console.log(`No User Session Found`)
+        res.redirect('/recursos/usuario/lista')
     }
 }

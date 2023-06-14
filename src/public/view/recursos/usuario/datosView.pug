@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    // Enlace a los estilos de Bootstrap
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css')
+    title Perfil de Usuario
+  body(style='background-color: darkslategray;')
+    .container.py-5
+      .card
+        .card-header
+          h3 Perfil de #{usuario.nombre}
+        .card-body
+          .mb-3
+            label.fw-bold(for='nombre') Nombre:
+            p#nombre.mb-0 #{usuario.nombre}
+          .mb-3
+            label.fw-bold(for='telefono') Tel&eacute;fono:
+            p#telefono.mb-0 #{usuario.telefono}
+          .mb-3
+            label.fw-bold(for='email') Email:
+            p#email.mb-0 #{usuario.email}
+        .card-footer
+            a.btn.btn-primary(href=`/recursos/usuario/actualizar/${usuario.id}`) Editar
+            a.btn.btn-danger(href=`/recursos/usuario/eliminar/${usuario.id}`) Eliminar
+    // Enlace a los scripts de Bootstrap
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js')

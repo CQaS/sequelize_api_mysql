@@ -1,11 +1,8 @@
-const plantilla_ListView = (data) => {
 
-  let plantilla =
-    `
 doctype html
 html(lang='en')
   head
-    title ${data}
+    title jabone
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     // Bootstrap CSS v5.2.1
@@ -13,9 +10,9 @@ html(lang='en')
     link(rel='stylesheet', href='/css/formCRUD.css')
   body
     .container
-      h3 DATOS DEL RECURSO: ${data}
+      h3 DATOS DEL RECURSO: jabone
       a.btn__button(href='/generarCRUD') CREAR RECURSO
-      a.btn__button(href='/recursos/${data}/create') Crear ${data}
+      a.btn__button(href='/recursos/jabone/create') Crear jabone
       a.btn__button(href='/recursos/usuario/salir') Salir
       br
       if list != null && list.length > 0
@@ -37,18 +34,13 @@ html(lang='en')
                     each x,y in n
                       if (y == 'id')
                         td 
-                          a.btn__button(href='/recursos/${data}/' + x + '/edit') Editar
-                          a.btn__button(href='/recursos/${data}/' + x + '/delete') Eliminar
+                          a.btn__button(href='/recursos/jabone/' + x + '/edit') Editar
+                          a.btn__button(href='/recursos/jabone/' + x + '/delete') Eliminar
                       else
                         td= x
                   - break
       else
-        p Atencion: No tienes ${data} registrados!
+        p Atencion: No tienes jabone registrados!
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')
-`
-  return plantilla
-}
-
-module.exports = plantilla_ListView

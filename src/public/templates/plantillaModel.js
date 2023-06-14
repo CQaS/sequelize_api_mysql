@@ -1,4 +1,4 @@
-const plantillaModel = (recursoNuevo, columns) => {
+const plantillaModel = (tablename, resultadoPalabras, cantidadDeSignos, replacementsResultado, param) => {
 
     let cuerpo = `
 const {
@@ -7,74 +7,107 @@ const {
     Model
 } = require('./conexion')
 
-class ${recursoNuevo} extends Model {}
+class ${tablename} extends Model {}
 
-${recursoNuevo}.init(${
-    columns
+${tablename}.init({
+    default: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 }, {
     sequelize,
-    modelName: '${recursoNuevo}',
+    modelName: '${tablename}',
     timestamps: false
 })
 
+
 const traer = async () => {
-    await ${recursoNuevo}.sync()
-    return await ${recursoNuevo}.findAll()
+
+    try {
+        const query = 'SELECT * FROM ${tablename}'
+        const [results, metadata] = await ${tablename}.sequelize.query(query, {
+            type: ${tablename}.sequelize.QueryTypes.SELECT,
+        })
+
+        return results
+
+    } catch (error) {
+
+        return false
+    }
 }
 
 const crear = async (data) => {
 
-    await ${recursoNuevo}.sync()
-    const creado = await ${recursoNuevo}.create({
-        nombre: data.nombre,
-        telefono: data.telefono,
-        mail: data.mail,
-    })
+    try {
 
-    return creado
+        const query = 'INSERT INTO ${tablename} ${resultadoPalabras} VALUES ${cantidadDeSignos}'
+        const [results, metadata] = await ${tablename}.sequelize.query(query, {
+            type: ${tablename}.sequelize.QueryTypes.INSERT,
+            replacements: [${replacementsResultado}]
+        })
+
+        return true
+
+    } catch (error) {
+
+        return false
+    }
+}
+
+const actualizarById = async (data) => {
+
+    try {
+
+        const query = 'UPDATE ${tablename} SET ${param} WHERE id = ?'
+        const [results, metadata] = await ${tablename}.sequelize.query(query, {
+            type: ${tablename}.sequelize.queryTypes.UPDATE,
+            replacements: [${replacementsResultado}, data.id]
+        })
+
+        return true
+
+    } catch (error) {
+
+        return false
+    }
+
 }
 
 const byId = async (id) => {
 
-    let _check = await ${recursoNuevo}.findOne({
-        where: {
-            id: id
-        }
-    })
+    try {
 
-    if (_check !== null) {
-        return _check
+        const query = 'SELECT * FROM ${tablename} WHERE id = ?'
+        const [results, metadata] = await ${tablename}.sequelize.query(query, {
+            type: ${tablename}.sequelize.QueryTypes.SELECT,
+            replacements: [id]
+        })
+
+        return results
+
+    } catch (error) {
+
+        return false
     }
-    return null
-
-}
-
-const actualizar = async (data) => {
-
-    await ${recursoNuevo}.sync()
-    const actualizado = await Usuario.update({
-        //data
-    }, {
-        where: {
-            id: data.id,
-        }
-    })
-    return actualizado
 }
 
 const borrarById = async (id) => {
 
-    let _borrar = await ${recursoNuevo}.destroy({
-        where: {
-            id: id
-        }
-    })
+    try {
 
-    if (_borrar !== null) {
-        return _borrar
+        const query = 'DELETE FROM ${tablename} WHERE id = ?'
+        const [results, metadata] = await ${tablename}.sequelize.query(query, {
+            type: ${tablename}.sequelize.QueryTypes.DELETE,
+            replacements: [id]
+        })
+
+        return true
+
+    } catch (error) {
+
+        return false
     }
-    return null
-
 }
 
 module.exports = {
@@ -82,7 +115,7 @@ module.exports = {
     crear,
     byId,
     borrarById,
-    actualizar,
+    actualizarById
 }`
 
     return cuerpo

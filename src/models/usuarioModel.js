@@ -55,10 +55,22 @@ const crearUnUsuario = async (data) => {
 
 const actualizar = async (data) => {
 
-    let hashedPassword = passwordHash.generate(data.password)
+    let _user = await Usuario.findOne({
+        where: {
+            id: data.id
+        }
+    })
+
+    let hashedPassword
+
+    (data.password != '') ? hashedPassword = passwordHash.generate(data.password): hashedPassword = _user.password
+
     await Usuario.sync()
     const actualizado = await Usuario.update({
-        //data
+        nombre: data.nombre,
+        telefono: data.telefono,
+        mail: data.mail,
+        password: hashedPassword,
     }, {
         where: {
             id: data.id,
@@ -75,9 +87,9 @@ const ingresarUnUsuario = async (data) => {
         }
     })
 
-    let user = null
+    let user = false
     if (check_user !== null) {
-        (passwordHash.verify(data.password, check_user.password)) ? user = check_user: user = null
+        (passwordHash.verify(data.password, check_user.password)) ? user = check_user: user = false
     }
     return user
 }
@@ -89,6 +101,7 @@ const byId = async (id) => {
             id: id
         }
     })
+    console.log(check_user)
 
     if (check_user !== null) {
         return check_user
@@ -112,11 +125,30 @@ const borrarById = async (id) => {
 
 }
 
+const validar_permisos = async (id, url) => {
+
+    try {
+
+        const s = 'SELECT permiso_otorgados FROM permisos WHERE id_usuario = ? AND recurso = ?'
+        const [results, metadata] = await Usuario.sequelize.query(s, {
+            type: Usuario.sequelize.QueryTypes.SELECT,
+            replacements: [id, url]
+        })
+
+        return results
+
+    } catch (error) {
+        return 'Error: ' + error
+    }
+
+}
+
 module.exports = {
     traer,
     crearUnUsuario,
     ingresarUnUsuario,
     byId,
     borrarById,
-    actualizar
+    actualizar,
+    validar_permisos
 }

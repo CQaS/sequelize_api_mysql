@@ -8,7 +8,8 @@ const columns = {}
 // Definir el modelo dinámicamente con las columnas del formulario
 const createDynamicTable2 = async (dataTable) => {
 
-    let arr = []
+    let signos = 0
+    let campos = []
     for (let key in dataTable) {
 
         let value = dataTable[key];
@@ -89,9 +90,8 @@ const createDynamicTable2 = async (dataTable) => {
 
         if (separador[0] == 'camponame') {
 
-            let comillas = `'${value[0]}'`
-
-            arr.push(comillas)
+            signos++
+            campos.push(value[0])
 
             columns[value[0]] = {
                 type: (value[1] == 'INTEGER') ? DataTypes.INTEGER : (value[1] == 'STRING') ? DataTypes.STRING(50) : (value[1] == 'BOOLEAN') ? DataTypes.BOOLEAN : DataTypes.ENUM("ENUM1", "ENUM2", "ENUM3")
@@ -104,11 +104,18 @@ const createDynamicTable2 = async (dataTable) => {
     })
 
     try {
+
         await dynamicModel.sync()
-        return arr
+        return {
+            estado: 'OK',
+            signosContar: signos,
+            arrCampos: campos
+        }
 
     } catch (error) {
-        return null
+        return {
+            estado: 'Error'
+        }
     }
 }
 

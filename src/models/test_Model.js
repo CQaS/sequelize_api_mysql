@@ -22,6 +22,14 @@ const testTabla = async (tabla) => {
 
 }
 
+const listarTodos = async () => {
+
+    let L = await test_Model.sequelize.query('SHOW TABLES')
+    return L
+
+}
+
 module.exports = {
-    testTabla
+    testTabla,
+    listarTodos
 }

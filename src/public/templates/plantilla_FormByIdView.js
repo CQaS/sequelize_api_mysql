@@ -13,21 +13,26 @@ html(lang='en')
     link(rel='stylesheet', href='/css/formCRUD.css')
   body
     .container
+      br
       h3 Formulario del recurso ${data}
-      if Object.keys(list).length > 0
+      br
+      if recurso != null
         form.form-horizontal(action="/recursos/${data}/actualizar", method="POST")
-          each values, keys in list
+          each values, keys in recurso
             each value, key in values
-              each val, ke in value
-                if (ke != 'id')
-                  .form-group
-                    label.control-label.col-sm-2(for=ke)= ke
-                    .col-sm-10
-                      input.form-control(type="text", name=ke, value=val)
-              - break
+              if (key == 'id')
+                input(type='hidden', name='id', value=value)
+              if (key != 'id')
+                .form-group
+                  label.control-label.col-sm-2(for=key)= key
+                  .col-sm-10
+                    input.form-control(type="text", name=key, value=value)
+            - break
+          br
           .form-group
             .col-sm-offset-2.col-sm-10
-              button.btn.btn-primary(type="submit") Editar
+              button.btn.btn-primary(type="submit") Actualizar
+              a.btn.btn-danger(href='/recursos/listarTodos') Cancelar
       else
         h1 No hay datos de ${data} para ver!
                           

@@ -12,8 +12,9 @@ html(lang='en')
     .container
       h3 LISTA DE RECURSOS: Usuarios
       a.btn__button(href='/generarCRUD') CREAR RECURSO
+      a.btn__button(href='/recursos/listarTodos') LISTAR RECURSOS
       a.btn__button(href='/recursos/usuario/registro') Crear Usuario
-      a.btn__button(href=`/recursos/usuario/salir`) Salir
+      a.btn__button(href='/recursos/usuario/salir') Salir
       br
       br
       if list != null && list.length > 0
@@ -36,8 +37,6 @@ html(lang='en')
                       if (y == 'id')
                         td 
                           a.btn__button(href='/recursos/usuario/datos/' + x) Ver
-                          a.btn__button(href='/recursos/usuario/actualizar/' + x) Editar
-                          a.btn__button(href='/recursos/usuario/eliminar/' + x) Eliminar
                       else if (y != 'password')
                         td= x
                   - break

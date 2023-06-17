@@ -100,7 +100,8 @@ const createDynamicTable2 = async (dataTable) => {
     }
 
     const dynamicModel = sequelize.define(dataTable.tablename, columns, {
-        timestamps: false
+        timestamps: false,
+        tableName: dataTable.tablename
     })
 
     try {

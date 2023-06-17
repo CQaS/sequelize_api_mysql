@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    // Enlace a los estilos de Bootstrap
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css')
+    title Perfil de Usuario
+    link(rel='stylesheet', href='info.css')      
+  body(style='background-color: darkslategray;')
+    .container.py-5
+      .card
+        div(style='border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;')
+          i.checkmark &check;
+        br
+        h1.btn.btn-info 
+          a(href=`/recursos/${recurso}/`) ver el Recurso: #{recurso}
+        p Su recurso fue Creado con exito!
+    // Enlace a los scripts de Bootstrap
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js')

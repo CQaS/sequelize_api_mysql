@@ -2,7 +2,8 @@ const path = require('path')
 const fs = require('fs')
 const async = require('async')
 const {
-    testTabla
+    testTabla,
+    listarTodos
 } = require('../models/test_Model')
 const {
     createDynamicTable2
@@ -29,9 +30,10 @@ exports.formCrearTabla = async (req, res) => {
 
 exports.crearTabla = async (req, res) => {
     const dataTabla = req.body
+    dataTabla.tablename = dataTabla.tablename.toLowerCase()
 
     const TBL = await testTabla(dataTabla.tablename)
-    if (typeof TBL[0][0] !== 'object') {
+    if (typeof TBL[0][0] !== 'object' && (dataTabla.tablename != 'usuario' || dataTabla.tablename != 'usuarios')) {
 
         //crea la tabla...
         let T = await createDynamicTable2(dataTabla)
@@ -57,7 +59,7 @@ exports.crearTabla = async (req, res) => {
                         const FormByIdPathView = path.join(__dirname, `../public/view/recursos/${dataTabla.tablename}/${dataTabla.tablename}_FormByIdView.pug`)
 
                         let paths = [ListPathView, ByIdPathView, FormPathView, FormByIdPathView]
-                        let arrayFunctions = [plantilla_ListView, plantilla_ByIdView, plantilla_FormByIdView, plantilla_FormView]
+                        let arrayFunctions = [plantilla_ListView, plantilla_ByIdView, plantilla_FormView, plantilla_FormByIdView]
                         let i = 0
 
                         async.each(paths, (file, callback) => {
@@ -138,9 +140,8 @@ exports.crearTabla = async (req, res) => {
                         return
                     }
                     console.log('El nuevo elemento se agregó con éxito.')
-                    res.render('notFoundView', {
-                        estado: 404,
-                        data: 'Algo fallo, Intentar nuevamente'
+                    res.render('info', {
+                        recurso: dataTabla.tablename
                     })
                 })
             })
@@ -148,7 +149,7 @@ exports.crearTabla = async (req, res) => {
         } else {
             res.render('notFoundView', {
                 estado: 404,
-                data: 'OKIS return DYNAMIC'
+                data: 'OKIS return DYNAMIC CREARTABLA_151'
             })
         }
 
@@ -157,8 +158,17 @@ exports.crearTabla = async (req, res) => {
         console.log('no')
         res.render('notFoundView', {
             estado: 404,
-            data: 'La tabla ya existe, Elige otro nombre!'
+            data: 'Ya existe, Elige otro nombre!'
         })
     }
 
+}
+
+exports.listarTodos = async (req, res) => {
+
+    const listar = await listarTodos()
+    console.log(listar[0])
+    res.render('listarRecursosView', {
+        list: listar[0],
+    })
 }

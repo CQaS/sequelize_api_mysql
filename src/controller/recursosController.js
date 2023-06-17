@@ -2,12 +2,23 @@ const arrayRoutes = require('../router/array.Routes')
 const module_diccionario = require('../../module_diccionario')
 
 
-exports.recursos = (req, res) => {
+exports.recursos = async (req, res) => {
 
     let recurso_url = req.url.slice(1).split('/')
     console.log(recurso_url[0])
-    let permisos = req.session.permisos
-    let tus_permisos = permisos.split('-')
+    let permisos = await req.session.permisos
+
+    let tus_permisos
+
+    (permisos != 'undefined') ?
+    tus_permisos = permisos.permiso_otorgados.split('-'):
+        res.render('notFoundView', {
+            estado: 404,
+            data: 'Recurso no valido. O sin permisos!'
+        })
+
+    console.log(tus_permisos)
+
     //C-R-U-D
 
     /*[ 'recurso', '56', 'edit' ]
@@ -30,28 +41,17 @@ exports.recursos = (req, res) => {
     if (recurso_url.length == 1 && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[1] == 'R') {
 
         (async () => {
-
             let listar = await module_diccionario[`${recurso_url[0]}Model`].traer()
-            if (listar) {
+            console.log(listar)
 
-                res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ListView`, {
-                    list: listar
-                })
-
-            } else {
-
-                res.render('notFoundView', {
-                    estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
-                })
-            }
-
+            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_ListView`, {
+                list: listar
+            })
         })()
-
     }
 
     //GET     /recurso/{id}       Retorna datos de un recurso
-    if (recurso_url.length == 2 && recurso_url[1] != 'create' && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[1] == 'R') {
+    else if (recurso_url.length == 2 && recurso_url[1] != 'create' && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[1] == 'R') {
 
         (async () => {
 
@@ -66,7 +66,7 @@ exports.recursos = (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
+                    data: 'Algo fallo, Intentalo de nuevo! RC_69'
                 })
             }
 
@@ -75,17 +75,25 @@ exports.recursos = (req, res) => {
     }
 
     //GET     /recurso/create     Muestra formulario para nuevo recurso
-    if (recurso_url.length == 2 && recurso_url[1] == 'create' && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[0] == 'C') {
+    else if (recurso_url.length == 2 && recurso_url[1] == 'create' && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[0] == 'C') {
 
-        res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormView`)
+        (async () => {
+
+            let recurso = await module_diccionario[`${recurso_url[0]}Model`].describe()
+            //console.log(recurso)
+            res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormView`, {
+                recurso: recurso
+            })
+        })()
+
     }
 
     //POST    /recurso/     Registra nuevo recurso 'panaderia_FormView'
-    if (recurso_url.length == 1 && arrayRoutes.includes(recurso_url[0]) && req.method == 'POST' && tus_permisos[0] == 'C') {
+    else if (recurso_url.length == 1 && arrayRoutes.includes(recurso_url[0]) && req.method == 'POST' && tus_permisos[0] == 'C') {
 
-        const data = req.body
 
         (async () => {
+            const data = req.body
 
             let creado = await module_diccionario[`${recurso_url[0]}Model`].crear(data)
             if (creado) {
@@ -103,7 +111,7 @@ exports.recursos = (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
+                    data: 'Algo fallo, Intentalo de nuevo! RC_106'
                 })
             }
 
@@ -111,11 +119,12 @@ exports.recursos = (req, res) => {
     }
 
     //GET     /recurso/{id}/edit     Muestra formulario para editar recurso
-    if (recurso_url.length == 3 && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[2] == 'U') {
+    else if (recurso_url.length == 3 && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[2] == 'U' && recurso_url[2] == 'edit') {
 
         (async () => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
+            console.log(datos_byId)
             if (datos_byId) {
 
                 res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormByIdView`, {
@@ -126,7 +135,7 @@ exports.recursos = (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
+                    data: 'Algo fallo, Intentalo de nuevo! RC_129'
                 })
             }
         })()
@@ -134,11 +143,11 @@ exports.recursos = (req, res) => {
     }
 
     //POST    /recurso/actualizar     Actualiza un recurso
-    if (recurso_url.length == 2 && arrayRoutes.includes(recurso_url[0]) && req.method == 'POST' && tus_permisos[2] == 'U') {
+    else if (recurso_url.length == 2 && arrayRoutes.includes(recurso_url[0]) && req.method == 'POST' && tus_permisos[2] == 'U') {
 
-        const data = req.body
 
         (async () => {
+            const data = req.body
 
             let actualizado = await module_diccionario[`${recurso_url[0]}Model`].actualizarById(data)
             if (actualizado) {
@@ -156,7 +165,7 @@ exports.recursos = (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
+                    data: 'Algo fallo, Intentalo de nuevo! RC_159'
                 })
             }
 
@@ -164,7 +173,7 @@ exports.recursos = (req, res) => {
     }
 
     //DELETE /recurso/{id}/delete
-    if (recurso_url.length == 3 && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[3] == 'D') {
+    else if (recurso_url.length == 3 && arrayRoutes.includes(recurso_url[0]) && req.method == 'GET' && tus_permisos[3] == 'D' && recurso_url[2] == 'delete') {
 
         (async () => {
 
@@ -185,11 +194,17 @@ exports.recursos = (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo!'
+                    data: 'Algo fallo, Intentalo de nuevo! RC_188'
                 })
             }
 
         })()
 
+    } else {
+        res.render('notFoundView', {
+            estado: 400,
+            data: 'Sin permisos!'
+        })
     }
+
 }

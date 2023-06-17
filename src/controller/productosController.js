@@ -5,19 +5,19 @@ const {
     byId,
     borrarById,
     actualizarById
-} = require('../models/jaboneModel')
+} = require('../models/productosModel')
 
 exports.lista = async (req, res) => {
 
     const traer = await traer()
-    res.render('recursos/jabone/listView', {
+    res.render('recursos/productos/listView', {
         list: traer,
     })
 }
 
 exports.formRegistro = async (req, res) => {
 
-    res.render('recursos/jabone/registroView')
+    res.render('recursos/productos/registroView')
 }
 
 exports.crear = async (req, res) => {
@@ -27,7 +27,7 @@ exports.crear = async (req, res) => {
     console.log(creado)
 
     const traer = await traer()
-    res.render('recursos/jabone/listView', {
+    res.render('recursos/productos/listView', {
         list: traer,
     })
 }
@@ -36,16 +36,16 @@ exports.datos = async (req, res) => {
     let id = req.params.id
 
     const traer = await byId(id)
-    res.render('recursos/jabone/datosView', {
+    res.render('recursos/productos/datosView', {
         usuario: traer,
     })
 }
 
-exports.actualizar = async (req, res) => {
+exports.actualizarForm = async (req, res) => {
     let id = req.params.id
 
     const traer = await byId(id)
-    res.render('recursos/jabone/actualizarView', {
+    res.render('recursos/productos/actualizarView', {
         usuario: traer,
     })
 }
@@ -57,7 +57,7 @@ exports.actualizar = async (req, res) => {
     console.log(actualizado)
 
     const traerUs = await traer()
-    res.render('recursos/jabone/listView', {
+    res.render('recursos/productos/listView', {
         list: traerUs,
     })
 }
@@ -69,7 +69,7 @@ exports.eliminar = async (req, res) => {
     console.log(_R)
 
     const traer = await traer()
-    res.render('recursos/jabone/listView', {
+    res.render('recursos/productos/listView', {
         list: traer,
     })
 }

@@ -10,23 +10,26 @@ html(lang='en')
     link(rel='stylesheet', href='/css/formCRUD.css')
   body
     .container
-      h3 Formulario del recurso jabone
-      if Object.keys(list).length > 0
-        form.form-horizontal(action="/recursos/jabone/actualizar", method="POST")
-          each values, keys in list
+      br
+      h3 Formulario del recurso productos
+      br
+      if  recurso != null
+        form.form-horizontal(action="/recursos/productos", method="POST")
+          each values, keys in recurso
             each value, key in values
-              each val, ke in value
-                if (ke != 'id')
+              if (key == 'Field')
+                if(value != 'id')
                   .form-group
-                    label.control-label.col-sm-2(for=ke)= ke
+                    label.control-label.col-sm-2(for=value)= value
                     .col-sm-10
-                      input.form-control(type="text", name=ke, value=val)
-              - break
+                      input.form-control(type="text", name=value)
+            
+          br
           .form-group
             .col-sm-offset-2.col-sm-10
-              button.btn.btn-primary(type="submit") Editar
+              button.btn.btn-primary(type="submit") Crear
       else
-        h1 No hay datos de jabone para ver!
+        h1 Algo fallo en el Formulario o no tienes permisos!
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')

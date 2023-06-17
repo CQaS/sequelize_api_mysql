@@ -22,4 +22,6 @@ routerUsuario.get('/eliminar/:id', usuarioController.validar_session, usuarioCon
 
 routerUsuario.get('/salir', usuarioController.salir)
 
+routerUsuario.all('*', usuarioController.default)
+
 module.exports = routerUsuario

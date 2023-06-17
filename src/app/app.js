@@ -1,6 +1,7 @@
 const express = require('express')
 const routerCRUD = require('../router/crearTabla.router')
 const routerUsuario = require('../router/usuario.router')
+const routerListarTodo = require('../router/listarTodos.router')
 const routerRecursosDinamico = require('../router/recursos.router')
 const session = require('express-session')
 require('dotenv').config()
@@ -24,6 +25,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 app.use('/', routerCRUD)
 app.use('/recursos/usuario', routerUsuario)
+app.use('/recursos/listarTodos', routerListarTodo)
 app.use('/recursos', routerRecursosDinamico())
 
 module.exports = app

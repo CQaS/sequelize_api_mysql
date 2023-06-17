@@ -9,19 +9,24 @@ html(lang='en')
     link(rel='stylesheet', href='/css/formCRUD.css')
   body
     .container
-      a.btn.btn-outline-primary(href='/recursos/usuario/login') ir a Login Usuario
+      br
       .row
         .form-content
           .form-items
             h3 Lista de Recursos 
             br
-            if list != null && list.length > 0
+            if list != null
                   p recursos registrados actuales en la DB
-                  for l in list
-                    .form-check.form-check-inline
-                      h3 Recurso-> #{l}
-                    br
-                    hr
+                  hr
+                  for li in list
+                    for v,k in li
+                      if (v != 'permisos' && v != 'usuarios')
+                        .form-check.form-check-inline
+                          h3
+                            | Ir al Recurso -&gt; 
+                            a.btn.btn-outline-primary(href='/recursos/' + v) #{v}
+                        br
+                        hr
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')

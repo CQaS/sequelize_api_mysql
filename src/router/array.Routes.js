@@ -1,1 +1,1 @@
-module.exports = arrayRoutes = ["default", "usuario", "jabone"]
+module.exports = arrayRoutes = ["usuario", "productos", "aviones"]

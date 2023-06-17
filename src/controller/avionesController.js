@@ -1,25 +1,23 @@
-const plantillaController = (data) => {
 
-    let cuerpo = `
 const {
     traer,
     crear,
     byId,
     borrarById,
     actualizarById
-} = require('../models/${data}Model')
+} = require('../models/avionesModel')
 
 exports.lista = async (req, res) => {
 
     const traer = await traer()
-    res.render('recursos/${data}/listView', {
+    res.render('recursos/aviones/listView', {
         list: traer,
     })
 }
 
 exports.formRegistro = async (req, res) => {
 
-    res.render('recursos/${data}/registroView')
+    res.render('recursos/aviones/registroView')
 }
 
 exports.crear = async (req, res) => {
@@ -29,7 +27,7 @@ exports.crear = async (req, res) => {
     console.log(creado)
 
     const traer = await traer()
-    res.render('recursos/${data}/listView', {
+    res.render('recursos/aviones/listView', {
         list: traer,
     })
 }
@@ -38,7 +36,7 @@ exports.datos = async (req, res) => {
     let id = req.params.id
 
     const traer = await byId(id)
-    res.render('recursos/${data}/datosView', {
+    res.render('recursos/aviones/datosView', {
         usuario: traer,
     })
 }
@@ -47,7 +45,7 @@ exports.actualizarForm = async (req, res) => {
     let id = req.params.id
 
     const traer = await byId(id)
-    res.render('recursos/${data}/actualizarView', {
+    res.render('recursos/aviones/actualizarView', {
         usuario: traer,
     })
 }
@@ -59,7 +57,7 @@ exports.actualizar = async (req, res) => {
     console.log(actualizado)
 
     const traerUs = await traer()
-    res.render('recursos/${data}/listView', {
+    res.render('recursos/aviones/listView', {
         list: traerUs,
     })
 }
@@ -71,12 +69,7 @@ exports.eliminar = async (req, res) => {
     console.log(_R)
 
     const traer = await traer()
-    res.render('recursos/${data}/listView', {
+    res.render('recursos/aviones/listView', {
         list: traer,
     })
 }
-`
-    return cuerpo
-}
-
-module.exports = plantillaController

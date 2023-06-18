@@ -149,7 +149,7 @@ exports.crearTabla = async (req, res) => {
         } else {
             res.render('notFoundView', {
                 estado: 404,
-                data: 'OKIS return DYNAMIC CREARTABLA_151'
+                data: 'Algo fallo! CREARTABLA_152'
             })
         }
 

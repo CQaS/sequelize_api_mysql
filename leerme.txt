@@ -1,0 +1,24 @@
+
+GET /recursos/NOMBRE_DEL_RECURSO/            Retorna listado de los recursos 'panaderia_ListView'
+
+GET /recursos/NOMBRE_DEL_RECURSO/{id}        Retorna datos de un recurso 'panaderia_ByIdView'
+        
+GET /recursos/NOMBRE_DEL_RECURSO/create      Muestra formulario para nuevo recurso 'panaderia_FormView'
+        
+POST /recursos/NOMBRE_DEL_RECURSO/           Registra nuevo recurso 
+
+GET /recursos/NOMBRE_DEL_RECURSO/{id}/edit   Muestra formulario para editar recurso 'panaderia_FormByIdView'
+
+POST /recursos/NOMBRE_DEL_RECURSO/{id}       Actualiza los datos del recurso 
+
+GET /recursos/NOMBRE_DEL_RECURSO/{id}/delete  Elimina un recurso
+
+
+LA OPCION ACTUALIZAR UN RECURSO NO SE PUDO SOLUCIONAR DE NINGUNA FORMA, SIGUE DANDO EL SIGUIENTE ERROR:
+TypeError: Cannot read properties of undefined (reading 'UPDATE')
+
+UN USUARIO CON TODOS LOS PERMISOS(para pruebas) PARA TODOS LOS RECURSOS HASTA EL MOMENTO ES:
+usuario: myriam@mail.com
+password: Myriam
+
+nombre de DB: tp_crud

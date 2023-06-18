@@ -19,6 +19,7 @@ html(lang='en')
       br
       a.btn__button(href='/generarCRUD') CREAR RECURSO
       a.btn__button(href='/recursos/${data}/create') Crear ${data}
+      a.btn__button(href='/recursos/listarTodos') LISTAR RECURSOS
       a.btn__button(href='/recursos/usuario/salir') Salir
       br
       br

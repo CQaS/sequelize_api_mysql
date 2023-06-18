@@ -1,22 +1,20 @@
-const plantillaModel = (tablename, resultadoPalabras, cantidadDeSignos, replacementsResultado, param) => {
 
-    let cuerpo = `
 const {
     sequelize,
     DataTypes,
     Model
 } = require('./conexion')
 
-class ${tablename} extends Model {}
+class motos extends Model {}
 
-${tablename}.init({
+motos.init({
     default: {
         type: DataTypes.STRING,
         allowNull: false
     },
 }, {
     sequelize,
-    modelName: '${tablename}',
+    modelName: 'motos',
     timestamps: false
 })
 
@@ -24,9 +22,9 @@ ${tablename}.init({
 const traer = async () => {
 
     try {
-        const query = 'SELECT * FROM ${tablename}'
-        let res = ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.QueryTypes.SELECT,
+        const query = 'SELECT * FROM motos'
+        let res = motos.sequelize.query(query, {
+            type: motos.sequelize.QueryTypes.SELECT,
         }).then((R) => {
             return R
         })
@@ -42,9 +40,9 @@ const traer = async () => {
 const describe = () => {
 
     try {
-        const query = 'DESCRIBE ${tablename}'
-        let res = ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.QueryTypes.SELECT,
+        const query = 'DESCRIBE motos'
+        let res = motos.sequelize.query(query, {
+            type: motos.sequelize.QueryTypes.SELECT,
         }).then((R) => {
             return R
         })
@@ -61,10 +59,10 @@ const crear = async (data) => {
 
     try {
 
-        const query = 'INSERT INTO ${tablename} ${resultadoPalabras} VALUES ${cantidadDeSignos}'
-        let results = ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.QueryTypes.INSERT,
-            replacements: [${replacementsResultado}]
+        const query = 'INSERT INTO motos (Marca, color, modelo) VALUES (?, ?, ?)'
+        let results = motos.sequelize.query(query, {
+            type: motos.sequelize.QueryTypes.INSERT,
+            replacements: [data.Marca, data.color, data.modelo]
         }).then((R) => {
             return R
         })
@@ -81,10 +79,10 @@ const actualizarById = async (data) => {
 
     try {
 
-        const query = 'UPDATE ${tablename} SET ${param} WHERE id = ?'
-        const results = ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.queryTypes.UPDATE,
-            replacements: [${replacementsResultado}, data.id]
+        const query = 'UPDATE motos SET Marca = ?, color = ?, modelo = ? WHERE id = ?'
+        const results = motos.sequelize.query(query, {
+            type: motos.sequelize.queryTypes.UPDATE,
+            replacements: [data.Marca, data.color, data.modelo, data.id]
             
         }).then(([R, metadata]) => {
             return R
@@ -105,9 +103,9 @@ const byId = async (id) => {
 
     try {
 
-        const query = 'SELECT * FROM ${tablename} WHERE id = ?'
-        let results = ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.QueryTypes.SELECT,
+        const query = 'SELECT * FROM motos WHERE id = ?'
+        let results = motos.sequelize.query(query, {
+            type: motos.sequelize.QueryTypes.SELECT,
             replacements: [id]
         }).then((R) => {
             return R
@@ -125,9 +123,9 @@ const borrarById = async (id) => {
 
     try {
 
-        const query = 'DELETE FROM ${tablename} WHERE id = ?'
-        let results = await ${tablename}.sequelize.query(query, {
-            type: ${tablename}.sequelize.QueryTypes.DELETE,
+        const query = 'DELETE FROM motos WHERE id = ?'
+        let results = await motos.sequelize.query(query, {
+            type: motos.sequelize.QueryTypes.DELETE,
             replacements: [id]
         }).then((R) => {
             return R
@@ -148,9 +146,4 @@ module.exports = {
     byId,
     borrarById,
     actualizarById
-}`
-
-    return cuerpo
 }
-
-module.exports = plantillaModel

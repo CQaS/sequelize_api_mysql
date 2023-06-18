@@ -11,10 +11,10 @@ html(lang='en')
   body
     .container
       br
-      h3 Formulario del recurso productos
+      h3 Formulario del recurso motos
       br
       if recurso != null
-        form.form-horizontal(action="/recursos/productos/actualizar", method="POST")
+        form.form-horizontal(action="/recursos/motos/actualizar", method="POST")
           each values, keys in recurso
             each value, key in values
               if (key == 'id')
@@ -57,7 +57,7 @@ html(lang='en')
               button.btn.btn-primary(type="submit") Actualizar
               a.btn.btn-danger(href='/recursos/listarTodos') Cancelar
       else
-        h1 No hay datos del productos para ver!
+        h1 No hay datos de motos para ver!
                           
     script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js', integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3', crossorigin='anonymous')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js', integrity='sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz', crossorigin='anonymous')

@@ -16,13 +16,28 @@ html(lang='en')
       if recurso != null
         form.form-horizontal(action="/recursos/aviones", method="POST")
           each values, keys in recurso
-            each value, key in values
+            each v, key in values
               if (key == 'Field')
-                if(value != 'id')
+                if (v != 'id')
                   .form-group
-                    label.control-label.col-sm-2(for=value)= value
+                    label.control-label.col-sm-2(for=v)= v
                     .col-sm-10
-                      input.form-control(type="text", name=value)
+                      each v2, key in values
+                        if (key == 'Type')
+                          if (v2 =='tinyint(1)')
+                            select.form-select(name=v, id=v)
+                              option(value='1' selected) SI
+                              option(value='2') NO
+
+                          else if(v2 == "enum('ENUM1','ENUM2','ENUM3')")
+                            - var opciones = v2.replace("enum(", "").replace(")", "").split(",")
+                            select.form-select(name=v, id=v)
+                              each opcion in opciones
+                                - var valor = opcion.replace(/'/g, "").trim()
+                                option(value=valor)= valor
+
+                          else
+                            input.form-control(type="text", name=v)  
             
           br
           .form-group

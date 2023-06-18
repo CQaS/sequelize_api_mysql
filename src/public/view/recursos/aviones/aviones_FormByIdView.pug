@@ -20,11 +20,37 @@ html(lang='en')
               if (key == 'id')
                 input(type='hidden', name='id', value=value)
               if (key != 'id')
-                .form-group
-                  label.control-label.col-sm-2(for=key)= key
-                  .col-sm-10
-                    input.form-control(type="text", name=key, value=value)
-            - break
+                each values2, k in describe
+                  each v1, key2 in values2
+                    if (key2 == 'Field')
+                      if v1 != 'id' && v1 == key
+                        .form-group
+                            each v2, key3 in values2
+                              if (key3 == 'Type')
+                                if (v2 =='tinyint(1)')
+                                  label.control-label.col-sm-2(for=key)= key
+                                  .col-sm-10
+                                    select.form-select(name=key, id=key)
+                                      if value == 1
+                                        option(value='1' selected) SI
+                                        option(value='0') NO
+                                      else
+                                        option(value='1') SI
+                                        option(value='0' selected) NO
+
+                                else if(v2 == "enum('ENUM1','ENUM2','ENUM3')")
+                                  - var opciones = v2.replace("enum(", "").replace(")", "").split(",")
+                                  label.control-label.col-sm-2(for=key)= key
+                                  .col-sm-10
+                                    select.form-select(name=key, id=key)
+                                      each opcion in opciones
+                                        - var valor = opcion.replace(/'/g, "").trim()
+                                        option(value=valor, selected=(valor === value) ? true : false)= valor
+                                else
+                                  .form-group
+                                    label.control-label.col-sm-2(for=key)= key
+                                    .col-sm-10
+                                      input.form-control(type="text", name=key, value=value)
           br
           .form-group
             .col-sm-offset-2.col-sm-10

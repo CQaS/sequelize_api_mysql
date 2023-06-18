@@ -14,7 +14,7 @@ exports.recursos = async (req, res) => {
     tus_permisos = permisos.permiso_otorgados.split('-'):
         res.render('notFoundView', {
             estado: 404,
-            data: 'Recurso no valido. O sin permisos!'
+            data: 'Recurso invalido y/o sin permiso!'
         })
 
     console.log(tus_permisos)
@@ -66,7 +66,7 @@ exports.recursos = async (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo! RC_69'
+                    data: 'Algo fallo! RC_69'
                 })
             }
 
@@ -80,7 +80,8 @@ exports.recursos = async (req, res) => {
         (async () => {
 
             let recurso = await module_diccionario[`${recurso_url[0]}Model`].describe()
-            //console.log(recurso)
+            console.log('recurso')
+            console.log(recurso)
             res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormView`, {
                 recurso: recurso
             })
@@ -94,6 +95,7 @@ exports.recursos = async (req, res) => {
 
         (async () => {
             const data = req.body
+            console.log(data)
 
             let creado = await module_diccionario[`${recurso_url[0]}Model`].crear(data)
             if (creado) {
@@ -111,7 +113,7 @@ exports.recursos = async (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo! RC_106'
+                    data: 'Algo fallo! RC_116'
                 })
             }
 
@@ -124,18 +126,19 @@ exports.recursos = async (req, res) => {
         (async () => {
 
             let datos_byId = await module_diccionario[`${recurso_url[0]}Model`].byId(recurso_url[1])
-            console.log(datos_byId)
+            let describe = await module_diccionario[`${recurso_url[0]}Model`].describe()
             if (datos_byId) {
 
                 res.render(`recursos/${recurso_url[0]}/${recurso_url[0]}_FormByIdView`, {
-                    recurso: datos_byId
+                    recurso: datos_byId,
+                    describe: describe
                 })
 
             } else {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo! RC_129'
+                    data: 'Algo fallo! RC_141'
                 })
             }
         })()
@@ -165,7 +168,7 @@ exports.recursos = async (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo! RC_159'
+                    data: 'Algo fallo! RC_171'
                 })
             }
 
@@ -194,7 +197,7 @@ exports.recursos = async (req, res) => {
 
                 res.render('notFoundView', {
                     estado: 404,
-                    data: 'Algo fallo, Intentalo de nuevo! RC_188'
+                    data: 'Algo fallo! RC_200'
                 })
             }
 
